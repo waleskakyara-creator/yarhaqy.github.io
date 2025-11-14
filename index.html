@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>5 Meses de Namoro</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #ffe6f2;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }/* Tela do jogo */
+#game-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 32px;
+    color: #ff2e6e;
+    margin-bottom: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    grid-gap: 10px;
+}
+
+.cell {
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 55px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cell:hover {
+    background: #ffe1ec;
+}
+
+/* Tela final estilo jornal */
+#newspaper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.8s;
+}
+
+.paper {
+    width: 85%;
+    max-width: 500px;
+    background: white;
+    padding: 25px;
+    text-align: center;
+    font-family: 'Times New Roman', serif;
+    border: 3px solid black;
+}
+
+.paper h2 {
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid black;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.pic-box {
+    width: 200px;
+    height: 200px;
+    background: #ddd;
+    margin: 0 auto 15px auto;
+    border: 2px solid black;
+}
+
+p {
+    font-size: 18px;
+}
+
+</style>
+</head>
+<body><div id="game-screen">
+    <h1>5 Meses de Namoro ❤️</h1>
+    <div class="grid" id="grid">
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+    </div>
+</div><div id="newspaper">
+    <div class="paper">
+        <h2>CASAL DO ANO</h2>
+        <div class="pic-box">FOTO AQUI</div>
+        <p>Após vencer o jogo da velha, ele ganhou oficialmente o coração dela. 💘<br><br>
+        Hoje completam 5 meses de muito amor, carinho e parceria.<br>
+        Que venham muitos outros! ❤️</p>
+    </div>
+</div><script>
+    const cells = document.querySelectorAll('.cell');
+    const newspaper = document.getElementById('newspaper');
+
+    let clicks = 0;
+
+    cells.forEach(cell => {
+        cell.addEventListener('click', () => {
+            if (cell.textContent !== '') return;
+            clicks++;
+
+            // Coloca coração primeiro
+            cell.textContent = '❤';
+
+            if (clicks >= 3) {
+                setTimeout(() => {
+                    newspaper.style.opacity = 1;
+                    newspaper.style.pointerEvents = 'all';
+                }, 500);
+            }
+        });
+    });
+</script></body>
+  </html>
