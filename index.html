@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>5 Meses</title>
+<style>
+    body {
+        margin: 0;
+        background: #f5f5f5;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* Container do jogo */
+    #game {
+        display: grid;
+        grid-template-columns: repeat(4, 80px);
+        gap: 10px;
+    }
+
+    .card {
+        width: 80px;
+        height: 80px;
+        background: #ff5b77;
+        color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 28px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: bold;
+    }
+
+    .card.revealed {
+        background: white;
+        color: black;
+        border: 2px solid #ff5b77;
+    }
+
+    /* Tela preta suave */
+    #black-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: 0;
+        visibility: hidden;
+        transition: 1.5s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #black-screen.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    /* Imagem final */
+    #final-image {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 10px;
+        opacity: 0;
+        transition: 2s;
+    }
+
+    #final-image.show {
+        opacity: 1;
+    }
+</style>
+</head>
+<body>
+
+<!-- Jogo -->
+<div id="game"></div>
+
+<!-- Tela preta + imagem -->
+<div id="black-screen">
+    <img id="final-image" src="quadro.jpg">
+</div>
+
+<script>
+    const numbers = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8];
+    let shuffled = numbers.sort(() => Math.random() - 0.5);
+
+    let game = document.getElementById("game");
+
+    let firstCard = null;
+    let lock = false;
+    let matched = 0;
+
+    shuffled.forEach((num, index) => {
+        let div = document.createElement("div");
+        div.className = "card";
+        div.dataset.value = num;
+        div.textContent = num;
+
+        div.onclick = () => {
+            if (lock || div.classList.contains("revealed")) return;
+
+            div.classList.add("revealed");
+
+            if (!firstCard) {
+                firstCard = div;
+            } else {
+                if (firstCard.dataset.value === div.dataset.value) {
+                    matched++;
+
+                    firstCard = null;
+
+                    if (matched === 8) {
+                        setTimeout(() => {
+                            document.getElementById("black-screen").classList.add("show");
+                            setTimeout(() => {
+                                document.getElementById("final-image").classList.add("show");
+                            }, 1500);
+                        }, 600);
+                    }
+
+                } else {
+                    lock = true;
+                    setTimeout(() => {
+                        firstCard.classList.remove("revealed");
+                        div.classList.remove("revealed");
+                        firstCard = null;
+                        lock = false;
+                    }, 700);
+                }
+            }
+        };
+
+        game.appendChild(div);
+    });
+</script>
+
+</body>
+</html>
